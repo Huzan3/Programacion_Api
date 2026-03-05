@@ -1,0 +1,67 @@
+[
+  [
+    "P-001",
+    "Smartphone Galaxy S24",
+    "Telefonia",
+    "Samsung",
+    "999.99",
+    "15",
+    "5",
+    "15/03/2024",
+    "Samsung Electronics",
+    "8806092229876",
+    "24 meses"
+  ],
+  [
+    "P-002",
+    "Laptop ThinkPad X1 Carbon",
+    "Computadoras",
+    "Lenovo",
+    "1499.99",
+    "3",
+    "4",
+    "10/03/2024",
+    "Lenovo Group",
+    "0193331681234",
+    "36 meses"
+  ],
+  [
+    "P-003",
+    "Auriculares Noise Cancelling WH-1000XM5",
+    "Audio",
+    "Sony",
+    "349.99",
+    "25",
+    "10",
+    "18/03/2024",
+    "Sony Corporation",
+    "4905524931248",
+    "12 meses"
+  ],
+  [
+    "P-004",
+    "Monitor Gaming 27\" 4K",
+    "Monitores",
+    "ASUS",
+    "599.99",
+    "0",
+    "3",
+    "05/03/2024",
+    "ASUS Tek",
+    "4712900751234",
+    "24 meses"
+  ],
+  [
+    "P-005",
+    "Tablet iPad Air 5th Gen",
+    "Tablets",
+    "Apple",
+    "749.99",
+    "8",
+    "6",
+    "20/03/2024",
+    "Apple Inc.",
+    "1901993221234",
+    "12 meses"
+  ]
+]
