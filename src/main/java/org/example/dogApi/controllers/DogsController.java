@@ -195,9 +195,22 @@ public class DogsController {
                             String response = callApi("https://dog.ceo/api/breed/" + breed + "/images/random/" + n);
                             JsonObject apiJson = gson.fromJson(response, JsonObject.class);
 
+                            if (apiJson.get("status").getAsString().equals("error")) {
+                                sendResponse(exchange, 404,
+                                        "{\"status\":\"error\",\"message\":\"Raza no encontrada: " + breed + "\"}");
+                                return;
+                            }
+
+                            JsonObject breedResult = new JsonObject();
+                            breedResult.addProperty("raza", breed);
+                            breedResult.add("imagenes", apiJson.get("message").getAsJsonArray());
+                            allResults.add(breedResult);
                         }
 
-
+                        result.add("razas", allResults);
+                        result.addProperty("cantidad_imagenes_por_raza", n);
+                        sendResponse(exchange, 200, gson.toJson(result));
+                        return;
 
                     } catch (NumberFormatException e) {
                         sendResponse(exchange, 400,
