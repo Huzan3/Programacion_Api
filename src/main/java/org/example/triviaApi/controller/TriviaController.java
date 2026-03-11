@@ -1,6 +1,9 @@
 package org.example.triviaApi.controller;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.sun.net.httpserver.HttpExchange;
 
 import java.io.IOException;
@@ -16,7 +19,8 @@ public class TriviaController {
     private final HttpClient client = HttpClient.newHttpClient();
     private final Gson gson = new Gson();
 
-    private List<String> allQuestions = null;
+    private String correctAnwser = null;
+
 
 
     public void handle(HttpExchange exchange) throws IOException {
@@ -27,6 +31,29 @@ public class TriviaController {
         if (path.equals("/trivia/questions/easy")) {
             try {
                 String response = callApi("https://opentdb.com/api.php?amount=10&difficulty=easy");
+                Gson gson = new Gson();
+                JsonObject jsonRaiz = gson.fromJson(response, JsonObject.class);
+                JsonObject jsonPregunta = jsonRaiz.getAsJsonObject("results");
+
+                for (JsonElement jsonElement : jsonPregunta.getAsJsonArray()) {
+
+                }
+                JsonObject jsonTrivia = new JsonObject();
+                System.out.println(jsonTrivia);
+                JsonArray arrayResults = new JsonArray();
+                JsonObject jsonQuestion = new JsonObject();
+                jsonQuestion.addProperty("question", "");
+                jsonQuestion.addProperty("correct_answer", "");
+                JsonArray arrayAnswers = new JsonArray();
+                jsonQuestion.add("answers", arrayAnswers);
+                arrayResults.add(jsonQuestion);
+                jsonTrivia.add("results", arrayResults);
+
+                System.out.println(jsonTrivia);
+
+
+
+
                 sendResponse(exchange, 200, response);
             } catch (Exception e) {
                 sendResponse(exchange, 500, "{\"error\": \"Error al obtener preguntas faciles\"}");
