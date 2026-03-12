@@ -12,6 +12,8 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class TriviaController {
@@ -33,28 +35,41 @@ public class TriviaController {
                 String response = callApi("https://opentdb.com/api.php?amount=10&difficulty=easy");
                 Gson gson = new Gson();
                 JsonObject jsonRaiz = gson.fromJson(response, JsonObject.class);
-                JsonObject jsonPregunta = jsonRaiz.getAsJsonObject("results");
+                JsonArray jsonPregunta = jsonRaiz.getAsJsonArray("results");
+                System.out.println(jsonPregunta);
+                JsonObject jsonTrivia = new JsonObject();
+                JsonArray arrayResults = new JsonArray();
 
-                for (JsonElement jsonElement : jsonPregunta.getAsJsonArray()) {
+                for (JsonElement element : jsonPregunta) {
+
+                    JsonObject jsonQuestion = new JsonObject();
+                    String question = element.getAsJsonObject().get("question").getAsString();
+                    String correctAnswer = element.getAsJsonObject().get("correct_answer").getAsString();
+                    jsonQuestion.addProperty("question", question);
+                    jsonQuestion.addProperty("correct_answer", correctAnswer);
+
+                    List<String> answersList = new ArrayList<>();
+                    JsonArray incorrectAnswers = element.getAsJsonObject().getAsJsonArray("incorrect_answers");
+                    for (JsonElement incorrect : incorrectAnswers) {
+                        answersList.add(incorrect.getAsString());
+                    }
+                    answersList.add(correctAnswer);
+
+                    Collections.shuffle(answersList);
+
+                    JsonArray arrayAnswers = new JsonArray();
+                    for (String answer : answersList) {
+                        arrayAnswers.add(answer);
+                    }
+
+                    jsonQuestion.add("answers", arrayAnswers);
+                    arrayResults.add(jsonQuestion);
+
+                    jsonTrivia.add("results", arrayResults);
 
                 }
-                JsonObject jsonTrivia = new JsonObject();
-                System.out.println(jsonTrivia);
-                JsonArray arrayResults = new JsonArray();
-                JsonObject jsonQuestion = new JsonObject();
-                jsonQuestion.addProperty("question", "");
-                jsonQuestion.addProperty("correct_answer", "");
-                JsonArray arrayAnswers = new JsonArray();
-                jsonQuestion.add("answers", arrayAnswers);
-                arrayResults.add(jsonQuestion);
-                jsonTrivia.add("results", arrayResults);
 
-                System.out.println(jsonTrivia);
-
-
-
-
-                sendResponse(exchange, 200, response);
+                sendResponse(exchange, 200, jsonTrivia.toString());
             } catch (Exception e) {
                 sendResponse(exchange, 500, "{\"error\": \"Error al obtener preguntas faciles\"}");
             }
@@ -64,9 +79,45 @@ public class TriviaController {
         if (path.equals("/trivia/questions/medium")) {
             try {
                 String response = callApi("https://opentdb.com/api.php?amount=10&difficulty=medium");
-                sendResponse(exchange, 200, response);
+                Gson gson = new Gson();
+                JsonObject jsonRaiz = gson.fromJson(response, JsonObject.class);
+                JsonArray jsonPregunta = jsonRaiz.getAsJsonArray("results");
+                System.out.println(jsonPregunta);
+                JsonObject jsonTrivia = new JsonObject();
+                JsonArray arrayResults = new JsonArray();
+
+                for (JsonElement element : jsonPregunta) {
+
+                    JsonObject jsonQuestion = new JsonObject();
+                    String question = element.getAsJsonObject().get("question").getAsString();
+                    String correctAnswer = element.getAsJsonObject().get("correct_answer").getAsString();
+                    jsonQuestion.addProperty("question", question);
+                    jsonQuestion.addProperty("correct_answer", correctAnswer);
+
+                    List<String> answersList = new ArrayList<>();
+                    JsonArray incorrectAnswers = element.getAsJsonObject().getAsJsonArray("incorrect_answers");
+                    for (JsonElement incorrect : incorrectAnswers) {
+                        answersList.add(incorrect.getAsString());
+                    }
+                    answersList.add(correctAnswer);
+
+                    Collections.shuffle(answersList);
+
+                    JsonArray arrayAnswers = new JsonArray();
+                    for (String answer : answersList) {
+                        arrayAnswers.add(answer);
+                    }
+
+                    jsonQuestion.add("answers", arrayAnswers);
+                    arrayResults.add(jsonQuestion);
+
+                    jsonTrivia.add("results", arrayResults);
+
+                }
+
+                sendResponse(exchange, 200, jsonTrivia.toString());
             } catch (Exception e) {
-                sendResponse(exchange, 500, "{\"error\": \"Error al obtener preguntas medias\"}");
+                sendResponse(exchange, 500, "{\"error\": \"Error al obtener preguntas faciles\"}");
             }
         }
 
@@ -74,9 +125,45 @@ public class TriviaController {
         if (path.equals("/trivia/questions/hard")) {
             try {
                 String response = callApi("https://opentdb.com/api.php?amount=10&difficulty=hard");
-                sendResponse(exchange, 200, response);
+                Gson gson = new Gson();
+                JsonObject jsonRaiz = gson.fromJson(response, JsonObject.class);
+                JsonArray jsonPregunta = jsonRaiz.getAsJsonArray("results");
+                System.out.println(jsonPregunta);
+                JsonObject jsonTrivia = new JsonObject();
+                JsonArray arrayResults = new JsonArray();
+
+                for (JsonElement element : jsonPregunta) {
+
+                    JsonObject jsonQuestion = new JsonObject();
+                    String question = element.getAsJsonObject().get("question").getAsString();
+                    String correctAnswer = element.getAsJsonObject().get("correct_answer").getAsString();
+                    jsonQuestion.addProperty("question", question);
+                    jsonQuestion.addProperty("correct_answer", correctAnswer);
+
+                    List<String> answersList = new ArrayList<>();
+                    JsonArray incorrectAnswers = element.getAsJsonObject().getAsJsonArray("incorrect_answers");
+                    for (JsonElement incorrect : incorrectAnswers) {
+                        answersList.add(incorrect.getAsString());
+                    }
+                    answersList.add(correctAnswer);
+
+                    Collections.shuffle(answersList);
+
+                    JsonArray arrayAnswers = new JsonArray();
+                    for (String answer : answersList) {
+                        arrayAnswers.add(answer);
+                    }
+
+                    jsonQuestion.add("answers", arrayAnswers);
+                    arrayResults.add(jsonQuestion);
+
+                    jsonTrivia.add("results", arrayResults);
+
+                }
+
+                sendResponse(exchange, 200, jsonTrivia.toString());
             } catch (Exception e) {
-                sendResponse(exchange, 500, "{\"error\": \"Error al obtener preguntas dificiles\"}");
+                sendResponse(exchange, 500, "{\"error\": \"Error al obtener preguntas faciles\"}");
             }
         }
 
